@@ -1,0 +1,16 @@
+[
+  {
+    "id": "groupdesk",
+    "name": "Group Desk",
+    "label": "GD",
+    "color": "#1F3A5F",
+    "url": "https://claude.ai/artifact/Fpxdge2Zh1usi632ZLGF3t"
+  },
+  {
+    "id": "recipes",
+    "name": "Recipes",
+    "label": "R",
+    "color": "#B4532A",
+    "url": "https://claude.ai/artifact/8R15quLNra5LhqJEMSLhcb"
+  }
+]

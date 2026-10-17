@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.application'
+}
+
+// One build = one app. The workflow passes these for each entry in apps.json.
+def appId = (project.findProperty('appId') ?: 'groupdesk').toString()
+def appName = (project.findProperty('appName') ?: 'Group Desk').toString()
+def appUrl = (project.findProperty('appUrl') ?: 'https://claude.ai/artifact/Fpxdge2Zh1usi632ZLGF3t').toString()
+def appColor = (project.findProperty('appColor') ?: '#1F3A5F').toString()
+def code = (project.findProperty('versionCode') ?: '1').toString().toInteger()
+
+def ksPath = System.getenv('KEYSTORE_PATH')
+def ksPass = System.getenv('KEYSTORE_PASSWORD')
+
+android {
+    namespace 'app.artifactshell'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "io.github.leoneglorioso.artifact.${appId}"
+        minSdk 26
+        targetSdk 34
+        versionCode code
+        versionName "1.${code}"
+        resValue 'string', 'app_name', appName
+        buildConfigField 'String', 'START_URL', "\"${appUrl}\""
+        buildConfigField 'String', 'THEME_COLOR', "\"${appColor}\""
+    }
+
+    signingConfigs {
+        release {
+            if (ksPath) {
+                storeFile file(ksPath)
+                storePassword ksPass
+                keyAlias 'apps'
+                keyPassword ksPass
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // The same key every build, so a newer app installs over the older one.
+            signingConfig ksPath ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
